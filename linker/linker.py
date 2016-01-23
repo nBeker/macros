@@ -68,7 +68,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         # If no parameters given, register linker to the context menu
         register()
-    elif os.path.exists(sys.argv[1]):
+    elif os.path.exists(sys.argv[1]) or "http" in sys.argv[1]:
         # If given path exists, create links..
         main(sys.argv[1])
         input("(:")
