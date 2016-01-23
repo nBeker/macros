@@ -1,5 +1,5 @@
 # macros
-Be a better person
+Be a better person to your PC
 
 Here are a bunch of scripts that should make your life easier.
 
