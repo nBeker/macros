@@ -5,7 +5,7 @@ import os
 
 SHORTCUT_PATH = r"C:\shortcuts\%s.lnk"
 vbs_path = os.path.join(os.path.dirname(__file__), "linker.vbs")
-INVOKE_VBS_CMD = "cscript %s {0} {1}" % vbs_path
+INVOKE_VBS_CMD = 'cscript %s "{0}" "{1}"' % vbs_path
 
 def yes_no_prompt(prompt, default_yes=True):
 	if default_yes:
@@ -33,7 +33,6 @@ def main(path):
 		yes_no_prompt("Hebrish link already exist, replace it?"):
 			shutil.copy(link_path, hebrish_link_path)
 			print("Hebrish shortcut created!")
-
 
 def register():
 	sys.path.append(REGGER_PATH)
