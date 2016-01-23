@@ -3,10 +3,8 @@ import shutil
 import sys
 import os
 
-SHORTCUT_PATH = r"C:\shortcuts"
-SCRIPT_DIRECTORY = os.path.dirname(__file__)
-vbs_path = os.path.join(SCRIPT_DIRECTORY, "linker.vbs")
-REGGER_PATH = os.path.join(os.path.dirname(SCRIPT_DIRECTORY), "regger")
+SHORTCUT_PATH = r"C:\shortcuts\%s.lnk"
+vbs_path = os.path.join(os.path.dirname(__file__), "linker.vbs")
 INVOKE_VBS_CMD = "cscript %s {0} {1}" % vbs_path
 
 def yes_no_prompt(prompt, default_yes=True):
