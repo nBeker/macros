@@ -52,7 +52,7 @@ def register(script_path, registry_name, context_menu_name=None,
         handle = winreg.CreateKeyEx(winreg.HKEY_CLASSES_ROOT, registry_key_path, 0, winreg.KEY_ALL_ACCESS)
         winreg.SetValueEx(handle, None, 0, winreg.REG_SZ, context_menu_name)
         handle.Close()
-        
+
         handle = winreg.CreateKeyEx(winreg.HKEY_CLASSES_ROOT, registry_key_path + REGISTRY_CMD)
         argument = DEFAULT_ARGUMENT if extension is not DIRECTORY_BACKGROUND else DIRECTORY_BG_ARGUMENT
         winreg.SetValueEx(handle, None, 0, winreg.REG_SZ,
