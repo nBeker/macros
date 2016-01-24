@@ -28,7 +28,6 @@ def yes_no_prompt(prompt, yes_default=True):
 
 def register(script_path, registry_name, context_menu_name=None,
              extensions=(ALL_FILE_EXTENSIONS, REG_DIRECTORY, DIRECTORY_BACKGROUND)):
-
     """
     Registers a script to right-click context-menu of the relevant extensions
     :param script_path: The script path

@@ -129,7 +129,6 @@ enumerator = comtypes.CoCreateInstance(
     comtypes.CLSCTX_INPROC_SERVER
 )
 
-
 endpoint = enumerator.GetDefaultAudioEndpoint(0, 1)
 volume = endpoint.Activate(IID_IAudioEndpointVolume, comtypes.CLSCTX_INPROC_SERVER, None)
 #

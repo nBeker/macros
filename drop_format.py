@@ -1,10 +1,13 @@
+"""
+Drops text formatting
+"""
+
 import text_manipulate
-import layout_switcher
 
 
 def main():
     try:
-        text_manipulate.manipulator(layout_switcher.switch_layout)
+        text_manipulate.manipulator(lambda text: text, replace_source=False, empty_clipboard=True)
     except Exception as e:
         import ipdb;
 

@@ -1,12 +1,12 @@
 from win32api import keybd_event as keyboard_event
 from time import sleep
 
-from  win32con import KEYEVENTF_KEYUP as RELEASE_KEY
+from win32con import KEYEVENTF_KEYUP as RELEASE_KEY
 
 
 SLEEP_CONST = .05
 
-# Giant dictonary to hold key name and VK value
+# Giant dictionary to hold key name and VK value
 VK_CODE = {'BACKSPACE': 0x08,
            'TAB': 0x09,
            '\t': 0x09,
@@ -161,10 +161,10 @@ VK_CODE = {'BACKSPACE': 0x08,
 
 
 def press(keys_list):
-    '''
+    """
     one press, one release.
-    accepts as many arguments as you want. e.g. press('left_arrow', 'a','b').
-    '''
+    :param keys_list:  list of keys
+    """
     for key in keys_list:
         keyboard_event(VK_CODE[key], 0, 0, 0)
         sleep(SLEEP_CONST)
@@ -172,34 +172,28 @@ def press(keys_list):
 
 
 def hold(keys_list):
-    '''
+    """
     press and hold. Do NOT release.
-    accepts as many arguments as you want.
-    e.g. pressAndHold('left_arrow', 'a','b').
-    '''
+    :param keys_list: list of keys
+    """
     for key in keys_list:
         keyboard_event(VK_CODE[key], 0, 0, 0)
         sleep(SLEEP_CONST)
 
 
 def release(keys_list):
-    '''
+    """
     release depressed keys
-    accepts as many arguments as you want.
-    e.g. release('left_arrow', 'a','b').
-    '''
+    :param keys_list: list of keys
+    """
     for key in keys_list:
         keyboard_event(VK_CODE[key], 0, RELEASE_KEY, 0)
 
 
 def press_combo(keys_list):
-    '''
-    press and hold passed in strings. Once held, release
-    accepts as many arguments as you want.
-    e.g. pressAndHold('left_arrow', 'a','b').
-
-    this is useful for issuing shortcut command or shift commands.
-    e.g. pressHoldRelease('ctrl', 'alt', 'del'), pressHoldRelease('shift','a')
-    '''
+    """
+    Holds and then Releases a key_list
+    :param keys_list: list of keys
+    """
     hold(keys_list)
     release(keys_list)
