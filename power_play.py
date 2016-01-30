@@ -49,11 +49,10 @@ def fetch_subtitles(input_filenames, config=None, multi=False):
 
 
 def has_subtitle(filename, language, multi):
-    # list of subtitle formats obtained from opensubtitles' advanced search page.
-    formats = ['.sub', '.srt', '.ssa', '.smi', '.mpl']
-    for ext in formats:
-        subtitle_filename = obtain_subtitle_filename(filename, language, ext,
-                                                     multi)
+    # list of subtitle extensions obtained from opensubtitles' advanced search page.
+    extensions = ['.sub', '.srt', '.ssa', '.smi', '.mpl']
+    for extension in extensions:
+        subtitle_filename = obtain_subtitle_filename(filename, language, extension, multi)
         if os.path.isfile(subtitle_filename):
             return subtitle_filename
 
@@ -74,7 +73,7 @@ def main(movie_path):
             subtitles_argument = SUBTITLES.format(subtitle_path=path)
     except:
         print("Something went wrong while trying to fetch subtitles, continuing without subs..")
-    
+
     command = COMMAND.format(file_path=movie_path) + subtitles_argument
     print(command)
     exec_cmd(command)
