@@ -1,9 +1,10 @@
 import win32clipboard
 
+
 class simple_clipboard(object):
     def __init__(self):
         self._is_open = False
-    
+
     def set(self, data):
         if self._is_open:
             win32clipboard.SetClipboardText(data, win32clipboard.CF_UNICODETEXT)

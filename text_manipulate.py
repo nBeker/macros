@@ -3,13 +3,12 @@ from simple_clipboard import simple_clipboard
 import virtual_keyboard
 
 
-
 class UseKeyboard(object):
-    send_alt_tab = lambda x: virtual_keyboard.press_combo("A\t")
+    send_alt_tab  = lambda x: virtual_keyboard.press_combo("A\t")
     send_mark_all = lambda x: virtual_keyboard.press_combo("^a")
-    send_paste = lambda x: virtual_keyboard.press_combo("^v")
-    send_copy = lambda x: virtual_keyboard.press_combo("^c")
-    send_cut = lambda x: virtual_keyboard.press_combo("^x")
+    send_paste    = lambda x: virtual_keyboard.press_combo("^v")
+    send_copy     = lambda x: virtual_keyboard.press_combo("^c")
+    send_cut      = lambda x: virtual_keyboard.press_combo("^x")
 
     def __init__(self, replace_source=True, mark_all=False):
         self._replace_source = replace_source
@@ -27,7 +26,7 @@ class UseKeyboard(object):
             # Copy text
             self.send_copy()
         return self
-    
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         if self._replace_source:
             self.send_paste()
