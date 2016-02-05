@@ -12,10 +12,7 @@ def main(flip_clipboard=False, mark_all=False):
             text_manipulate.manipulator_with_keyboard(function=layout_switcher.switch_layout, replace_source=True,
                                                       mark_all=mark_all)
     except Exception as e:
-        import ipdb;
-
-        ipdb.set_trace()
-        input()
+        input(e.args)
 
 
 if __name__ == "__main__":

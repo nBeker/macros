@@ -81,6 +81,7 @@ def main(movie_path):
 
 if __name__ == "__main__":
     if len(argv) is not 2:
+        print(argv)
         print("<power_play.py> <movie_name>")
     else:
         main(argv[1])
