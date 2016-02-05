@@ -1,4 +1,4 @@
-from simple_clipboard import simple_clipboard
+from simple_clipboard import clipboard
 
 import virtual_keyboard
 
@@ -39,12 +39,11 @@ def manipulator(function, empty_clipboard=False):
     :param empty_clipboard: Clear the contents of the clipboard
     """
     try:
-        with simple_clipboard() as clipboard:
-            data = clipboard.get()
-            if empty_clipboard:
-                clipboard.empty()
+        data = clipboard.get()
+        if empty_clipboard:
+            clipboard.empty()
 
-            clipboard.set(function(data))
+        clipboard.set(function(data))
 
     except Exception as e:
         input(e.args)
