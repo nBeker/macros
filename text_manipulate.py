@@ -4,6 +4,12 @@ import virtual_keyboard
 
 
 class UseKeyboard(object):
+    """
+    Switching context to the previously focused process using Alt+Tab
+    Then cuts selected test if replace_source is True
+    After the manipulation if replace_source is True the text will be pasted
+    * It is also possible to send Ctrl+A to mark all text in the window
+    """
     send_alt_tab = lambda x: virtual_keyboard.press_combo("A\t")
     send_mark_all = lambda x: virtual_keyboard.press_combo("^a")
     send_paste = lambda x: virtual_keyboard.press_combo("^v")
