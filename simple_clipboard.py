@@ -1,3 +1,9 @@
+"""
+Wrapping the clipboard functions for it's text-only purposes.
+Set, Get, Empty
+will handle the open and closing of clipboard for each methods
+"""
+
 import win32clipboard
 
 
