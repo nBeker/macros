@@ -1,15 +1,48 @@
 import sys
 import winreg
+import argparse
 
 PYTHON_RUNNER = r'cmd /c python "{script_path}" "{argument_format}"'
-REGISTRY_BASE_PATH = r'{extension}\shell\{key_name}'
+REGISTRY_BASE_PATH = r'SOFTWARE\Classes\{extension}\shell\{key_name}'
 REGISTRY_CMD = r'\command'
 ALL_FILE_EXTENSIONS = '*'
 REG_DIRECTORY = 'Directory'
-DIRECTORY_BACKGROUND = 'Directory\Background'
+DIRECTORY_BACKGROUND = 'Directory\\Background'
+DEFAULT_EXTENSIONS = (ALL_FILE_EXTENSIONS, REG_DIRECTORY, DIRECTORY_BACKGROUND)
 DEFAULT_ARGUMENT = '%1'
 DIRECTORY_BG_ARGUMENT = '%V'
+ICON = "Icon"
 
+def handle_arguments():
+    def add_common_args(parser):
+        parser.add_argument("registry_name", type=str, help="The key name in the registry")
+        parser.add_argument("extensions", type=str, nargs='*', default=DEFAULT_EXTENSIONS,
+                             help="Which extensions to register the script upon. "
+                               "default:{exts}".format(exts=DEFAULT_EXTENSIONS))
+        users = parser.add_mutually_exclusive_group()
+        users.add_argument("-o", "--only_me", dest="all_users",action="store_false")
+        users.add_argument("-a", "--all_users", dest="all_users", default=True, action="store_true")
+
+    parser = argparse.ArgumentParser(prog="regger",
+                                     description="Fast Registry Operations")
+    subparsers = parser.add_subparsers(help='sub-command help')
+
+    register = subparsers.add_parser('register', help='registers a script to the context menu')
+    register.set_defaults(action="register")
+    register.add_argument("script_path", type=str, help="Path of the script you would like to register")
+
+    add_common_args(register)
+
+    register.add_argument("-n", "--friendly_name", type=str, help="The name that will appear to the user",
+                          required=False)
+    register.add_argument("-i", "--icon", type=str, help="Path to .ICO image", required=False)
+
+
+    unregister = subparsers.add_parser('unregister', help='registers a script to the context menu')
+    unregister.set_defaults(action="unregister")
+    add_common_args(unregister)
+
+    return parser.parse_args()
 
 def yes_no_prompt(prompt, yes_default=True):
     """
@@ -27,13 +60,14 @@ def yes_no_prompt(prompt, yes_default=True):
 
 
 def register(script_path, registry_name, context_menu_name=None,
-             extensions=(ALL_FILE_EXTENSIONS, REG_DIRECTORY, DIRECTORY_BACKGROUND)):
+             extensions=(ALL_FILE_EXTENSIONS, REG_DIRECTORY, DIRECTORY_BACKGROUND), icon_path=None):
     """
     Registers a script to right-click context-menu of the relevant extensions
     :param script_path: The script path
     :param registry_name: The registry key name - how it will actually appear in the registry
     :param context_menu_name: How will it look like in the right-click context menu
     :param extensions: Iterable structure of extensions to whom the script will be registered to.
+    :param icon_path: path to ICO image file
     """
     print("Script: %s" % script_path)
     print("Registry Key: %s" % registry_name)
@@ -50,6 +84,9 @@ def register(script_path, registry_name, context_menu_name=None,
         registry_key_path = REGISTRY_BASE_PATH.format(extension=extension, key_name=registry_name)
         handle = winreg.CreateKeyEx(winreg.HKEY_CLASSES_ROOT, registry_key_path, 0, winreg.KEY_ALL_ACCESS)
         winreg.SetValueEx(handle, None, 0, winreg.REG_SZ, context_menu_name)
+        if icon_path:
+            winreg.SetValueEx(handle, ICON, 0, winreg.REG_SZ, icon_path)
+
         handle.Close()
 
         handle = winreg.CreateKeyEx(winreg.HKEY_CLASSES_ROOT, registry_key_path + REGISTRY_CMD)
@@ -60,12 +97,11 @@ def register(script_path, registry_name, context_menu_name=None,
 
 
 if __name__ == "__main__":
-    extensions = (ALL_FILE_EXTENSIONS, REG_DIRECTORY, DIRECTORY_BACKGROUND)
+    args = handle_arguments()
+    root_key = winreg.HKEY_LOCAL_MACHINE if args.all_users else winreg.HKEY_CURRENT_USER
+    if args.action == "register":
+        register(script_path=args.script_path, registry_name=args.registry_name, context_menu_name=args.friendly_name,
+                 extensions=args.extensions, icon_path=args.icon)
 
-    if len(sys.argv) < 3:
-        print("regger.py <script_path> <registry_name> [context_menu_name] [extensions]")
-        sys.exit()
-    elif len(sys.argv) is 5:
-        extensions = sys.argv[4].split(',')
-
-    register(sys.argv[1], sys.argv[2], sys.argv[3], extensions)
+    elif args.action == "unregister":
+        pass
