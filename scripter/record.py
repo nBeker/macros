@@ -5,6 +5,7 @@ import os.path
 
 import pythoncom
 import pyHook
+from string import Template
 
 
 actions_list = list()
@@ -65,7 +66,10 @@ if __name__ == "__main__":
 
     if actions_list:
         # Saving the information:
+
+        with open("template.py") as t:
+            template =  Template(t.read())
+
         with open(args.macro_name, 'w') as f:
-            f.write("import play\n"
-                    "play.play_macro('{actions_json}')".format(actions_json=json.dumps(actions_list)))
+            f.write(template.substitute(actions_json=json.dumps(actions_list)))
 

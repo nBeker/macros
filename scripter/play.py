@@ -46,9 +46,10 @@ actions = {MOUSE_EVENT: MouseAction,
            KEYBOARD_EVENT: KeyboardAction}
 
 
-def play_macro(macro_json, action_delay=.1, animate_mouse=False):
+def play_macro(macro_json, action_delay=.1, repeats=1, animate_mouse=False):
     # Loading the macro
     actions_list = json.loads(macro_json)
-    for action in actions_list:
-        actions[action[0]](action[1])
-        sleep(action_delay)
+    for i in range(repeats):
+        for action in actions_list:
+            actions[action[0]](action[1])
+            sleep(action_delay)
