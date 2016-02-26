@@ -3,6 +3,7 @@ from win32api import mouse_event
 from win32api import SetCursorPos as set_mouse_position
 import json
 from time import sleep
+import argparse
 
 from win32con import KEYEVENTF_KEYUP as RELEASE_KEY
 import pyHook
@@ -10,6 +11,16 @@ import pyHook
 
 MOUSE_EVENT = 0
 KEYBOARD_EVENT = 1
+
+
+def handle_arguments():
+    parser = argparse.ArgumentParser(description="macro")
+    parser.add_argument("-d", "--delay", type=int, help="Delay between actions (milliseconds)",
+                        required=False, default=100, dest="delay")
+    parser.add_argument("-r", "--repeats", type=int, help="How many times to repeat the macro",
+                        required=False, default=1, dest="repeats")
+
+    return parser.parse_args()
 
 
 def MouseAction(action):
