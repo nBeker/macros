@@ -1,0 +1,1 @@
+start chrome https://translate.google.com/?source=#auto/iw/"%*"
